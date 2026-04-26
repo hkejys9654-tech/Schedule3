@@ -5,6 +5,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>목사님 심방 일정표</title>
+<meta name="theme-color" content="#1B1F2A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="심방일정">
+<link rel="manifest" href="manifest.json">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -156,8 +162,8 @@ border-radius: 4px;
 display: inline-block;
 }
 .dot-available { background: white; border: 1.5px solid #C9C0AE; }
-.dot-unavailable { background: var(–unavailable); }
-.dot-confirmed { background: var(–confirmed); }
+.dot-unavailable { background: #B33A3A; }
+.dot-confirmed { background: #3F6B4A; }
 
 /* Hint */
 .hint {
@@ -234,19 +240,9 @@ transition: filter 0.1s;
 user-select: none;
 }
 .slot-cell:active { filter: brightness(0.94); }
-.slot-cell.available {
-background: var(–available);
-color: #C9C0AE;
-}
-.slot-cell.unavailable {
-background: var(–unavailable);
-color: white;
-}
-.slot-cell.confirmed {
-background: var(–confirmed);
-color: white;
-padding: 4px 3px;
-}
+.slot-cell.available { background: #FFFFFF; color: #C9C0AE; }
+.slot-cell.unavailable { background: #B33A3A !important; color: white !important; }
+.slot-cell.confirmed { background: #3F6B4A !important; color: white !important; padding: 4px 3px; }
 .slot-icon {
 font-size: 14px;
 display: block;
@@ -322,20 +318,9 @@ transition: all 0.12s;
 color: var(–ink);
 }
 .state-btn:active { transform: scale(0.97); }
-.state-btn.active[data-state=“available”] {
-background: #FAF7F0;
-border-color: var(–ink);
-}
-.state-btn.active[data-state=“unavailable”] {
-background: var(–unavailable);
-color: white;
-border-color: var(–unavailable);
-}
-.state-btn.active[data-state=“confirmed”] {
-background: var(–confirmed);
-color: white;
-border-color: var(–confirmed);
-}
+.state-btn.active[data-state=“available”] { background: #FAF7F0; border-color: #1B1F2A; }
+.state-btn.active[data-state=“unavailable”] { background: #B33A3A; color: white; border-color: #B33A3A; }
+.state-btn.active[data-state=“confirmed”] { background: #3F6B4A; color: white; border-color: #3F6B4A; }
 
 .name-input-wrap {
 margin-bottom: 16px;
