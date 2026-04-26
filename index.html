@@ -259,7 +259,7 @@ padding: 0 2px;
 /* Modal / bottom sheet */
 .modal-backdrop {
 position: fixed;
-inset: 0;
+top: 0; left: 0; right: 0; bottom: 0;
 background: rgba(0,0,0,0.45);
 display: none;
 align-items: flex-end;
@@ -299,26 +299,31 @@ text-align: center;
 margin-bottom: 18px;
 }
 .state-buttons {
-display: grid;
-grid-template-columns: 1fr 1fr 1fr;
-gap: 8px;
+display: -webkit-box;
+display: -webkit-flex;
+display: flex;
+-webkit-box-pack: justify;
+justify-content: space-between;
 margin-bottom: 16px;
 }
 .state-btn {
-padding: 16px 6px 14px;
+width: 31%;
+padding: 18px 4px;
 border-radius: 12px;
-border: 1.5px solid var(–border);
-background: white;
+border: 2px solid #E5DDD0;
+background: #F9F5EC;
 font-size: 14px;
 font-weight: 700;
 cursor: pointer;
+-webkit-transition: all 0.12s;
 transition: all 0.12s;
-color: var(–ink);
+color: #6F6B62;
+font-family: inherit;
 }
 .state-btn:active { transform: scale(0.97); }
-.state-btn.active[data-state=“available”] { background: #FAF7F0; border-color: #1B1F2A; }
-.state-btn.active[data-state=“unavailable”] { background: #B33A3A; color: white; border-color: #B33A3A; }
-.state-btn.active[data-state=“confirmed”] { background: #3F6B4A; color: white; border-color: #3F6B4A; }
+.state-btn.active[data-state=“available”] { background: #E8F4E8; border-color: #3F6B4A; color: #3F6B4A; }
+.state-btn.active[data-state=“unavailable”] { background: #B33A3A; border-color: #B33A3A; color: white; font-size: 15px; }
+.state-btn.active[data-state=“confirmed”] { background: #3F6B4A; border-color: #3F6B4A; color: white; font-size: 15px; }
 
 .name-input-wrap {
 margin-bottom: 16px;
@@ -410,7 +415,7 @@ line-height: 1.5;
 /* Image preview modal */
 .img-modal {
 position: fixed;
-inset: 0;
+top: 0; left: 0; right: 0; bottom: 0;
 background: rgba(0,0,0,0.88);
 display: none;
 flex-direction: column;
@@ -792,8 +797,21 @@ function openModal(date, slot) {
 }
 
 function updateStateButtons() {
+  const styles = {
+    available:   { bg: '#E8F4E8', color: '#3F6B4A', border: '2px solid #3F6B4A' },
+    unavailable: { bg: '#B33A3A', color: 'white',   border: '2px solid #B33A3A' },
+    confirmed:   { bg: '#3F6B4A', color: 'white',   border: '2px solid #3F6B4A' },
+  };
+  const inactive = { bg: '#F9F5EC', color: '#6F6B62', border: '2px solid #E5DDD0' };
+
   document.querySelectorAll('.state-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.state === selectedState);
+    const isActive = btn.dataset.state === selectedState;
+    const s = isActive ? styles[btn.dataset.state] : inactive;
+    btn.style.background    = s.bg;
+    btn.style.color         = s.color;
+    btn.style.border        = s.border;
+    btn.style.fontWeight    = '700';
+    btn.classList.toggle('active', isActive);
   });
   document.getElementById('name-wrap').classList.toggle('show', selectedState === 'confirmed');
 }
