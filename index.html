@@ -145,25 +145,22 @@ letter-spacing: 0.05em;
 /* Legend */
 .legend {
 display: flex;
-gap: 14px;
+gap: 8px;
 justify-content: center;
-background: var(–surface);
 padding: 11px 14px;
-border-radius: 12px;
 margin-bottom: 12px;
-font-size: 12.5px;
-border: 1px solid var(–border-soft);
-font-weight: 500;
+font-size: 13px;
+font-weight: 700;
 }
-.legend-item { display: flex; align-items: center; gap: 6px; }
-.legend-dot {
-width: 14px; height: 14px;
-border-radius: 4px;
-display: inline-block;
+.legend-item {
+padding: 8px 14px;
+border-radius: 999px;
+font-weight: 700;
+font-size: 13px;
 }
-.dot-available { background: white; border: 1.5px solid #C9C0AE; }
-.dot-unavailable { background: #B33A3A; }
-.dot-confirmed { background: #3F6B4A; }
+.dot-available { background: #FFFFFF; color: #1B1F2A; border: 1.5px solid #C9C0AE; }
+.dot-unavailable { background: #B33A3A; color: white; border: none; }
+.dot-confirmed { background: #3F6B4A; color: white; border: none; }
 
 /* Hint */
 .hint {
@@ -244,9 +241,10 @@ user-select: none;
 .slot-cell.unavailable { background: #B33A3A !important; color: white !important; }
 .slot-cell.confirmed { background: #3F6B4A !important; color: white !important; padding: 4px 3px; }
 .slot-icon {
-font-size: 14px;
+font-size: 11px;
 display: block;
 line-height: 1.2;
+font-weight: 700;
 }
 .slot-name {
 display: block;
@@ -554,9 +552,9 @@ letter-spacing: 0.03em;
 </div>
 
 <div class="legend">
-  <div class="legend-item"><span class="legend-dot dot-available"></span>가능</div>
-  <div class="legend-item"><span class="legend-dot dot-unavailable"></span>불가</div>
-  <div class="legend-item"><span class="legend-dot dot-confirmed"></span>심방확정</div>
+  <div class="legend-item dot-available">가능</div>
+  <div class="legend-item dot-unavailable">불가능</div>
+  <div class="legend-item dot-confirmed">심방확정</div>
 </div>
 
 <div class="hint">셀을 탭해서 상태를 변경할 수 있어요</div>
@@ -763,10 +761,10 @@ function renderSlot(date, slot, state, name) {
     inner = `<span class="slot-icon">✓</span><span class="slot-name">${name ? escapeHtml(name) : '확정'}</span>`;
   } else if (state === 'unavailable') {
     bg = '#B33A3A'; color = 'white';
-    inner = `<span class="slot-icon">✕</span>`;
+    inner = `<span class="slot-icon">불가능</span>`;
   } else {
     bg = '#FFFFFF'; color = '#C9C0AE';
-    inner = `<span class="slot-icon">·</span>`;
+    inner = `<span class="slot-icon">가능</span>`;
   }
   return `<td class="slot-cell ${state}" data-date="${date}" data-slot="${slot}" style="background:${bg};color:${color};">${inner}</td>`;
 }
