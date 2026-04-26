@@ -772,15 +772,18 @@ function renderTable() {
 
 function renderSlot(date, slot, state, name) {
   state = state || 'available';
-  let inner = '';
+  let bg, color, inner;
   if (state === 'confirmed') {
+    bg = '#3F6B4A'; color = 'white';
     inner = `<span class="slot-icon">✓</span><span class="slot-name">${name ? escapeHtml(name) : '확정'}</span>`;
   } else if (state === 'unavailable') {
+    bg = '#B33A3A'; color = 'white';
     inner = `<span class="slot-icon">✕</span>`;
   } else {
+    bg = '#FFFFFF'; color = '#C9C0AE';
     inner = `<span class="slot-icon">·</span>`;
   }
-  return `<td class="slot-cell ${state}" data-date="${date}" data-slot="${slot}">${inner}</td>`;
+  return `<td class="slot-cell ${state}" data-date="${date}" data-slot="${slot}" style="background:${bg};color:${color};">${inner}</td>`;
 }
 
 function escapeHtml(s) {
