@@ -50,7 +50,6 @@ body {
   font-weight: 800;
 }
 
-/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -85,7 +84,6 @@ header {
 }
 .export-btn:active { transform: scale(0.96); }
 
-/* Title section */
 .title-block {
   text-align: center;
   margin-bottom: 18px;
@@ -104,7 +102,6 @@ header {
   letter-spacing: 0.05em;
 }
 
-/* Month nav */
 .month-nav {
   display: flex;
   align-items: center;
@@ -145,7 +142,6 @@ header {
   letter-spacing: 0.05em;
 }
 
-/* Legend */
 .legend {
   display: flex;
   gap: 8px;
@@ -165,7 +161,6 @@ header {
 .dot-unavailable { background: #B33A3A; color: white; border: none; }
 .dot-confirmed { background: #3F6B4A; color: white; border: none; }
 
-/* Hint */
 .hint {
   text-align: center;
   font-size: 11px;
@@ -174,7 +169,6 @@ header {
   letter-spacing: 0.02em;
 }
 
-/* Schedule */
 #schedule-area {
   background: var(--surface);
   border-radius: 14px;
@@ -259,7 +253,6 @@ td {
   padding: 0 2px;
 }
 
-/* Modal / bottom sheet */
 .modal-backdrop {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -384,7 +377,6 @@ td {
 .btn-cancel { background: #F0E9DD; color: var(--ink); }
 .btn-save:active, .btn-cancel:active { transform: scale(0.97); }
 
-/* Toast */
 .toast {
   position: fixed;
   bottom: 32px;
@@ -407,7 +399,6 @@ td {
   transform: translateX(-50%) translateY(0);
 }
 
-/* Footer */
 .footer-note {
   text-align: center;
   font-size: 10.5px;
@@ -418,10 +409,8 @@ td {
   line-height: 1.5;
 }
 
-/* Export-only elements (hidden by default) */
 .export-only { display: none; }
 
-/* Image preview modal */
 .img-modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -512,7 +501,6 @@ td {
   color: #1B1F2A;
 }
 
-/* When exporting, show extras */
 .exporting .export-only { display: block; }
 .exporting .export-title {
   padding: 18px 16px 14px;
@@ -548,7 +536,7 @@ td {
 <body>
 
 <header>
-  <div class="brand">PASTOR · VISIT</div>
+  <div class="brand">EVANGELIST · VISIT</div>
   <button class="export-btn" id="export-btn">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     이미지 저장
@@ -556,8 +544,8 @@ td {
 </header>
 
 <div class="title-block">
-  <div class="title-main serif">목사님 심방 일정</div>
-  <div class="title-sub">Pastoral Visit Schedule</div>
+  <div class="title-main serif">교구 전도인 심방 일정</div>
+  <div class="title-sub">Parish Evangelist Visit Schedule</div>
 </div>
 
 <div class="month-nav">
@@ -579,7 +567,7 @@ td {
 
 <div id="schedule-area">
   <div class="export-only export-title">
-    <div class="export-title-main" id="export-title-main">목사님 심방 일정</div>
+    <div class="export-title-main" id="export-title-main">교구 전도인 심방 일정</div>
     <div class="export-title-sub" id="export-title-sub">2026년 4월</div>
   </div>
   <table>
@@ -685,7 +673,6 @@ function changeMonth(delta) {
   loadAndRender();
 }
 
-// Layered storage: window.storage → localStorage → memory
 const memCache = {};
 const Storage = {
   async get(key) {
@@ -693,7 +680,7 @@ const Storage = {
       try {
         const result = await window.storage.get(key, false);
         if (result && result.value !== undefined) return result.value;
-      } catch (e) { /* key may not exist; fall through */ }
+      } catch (e) {}
     }
     try {
       if (typeof localStorage !== 'undefined') {
@@ -708,13 +695,13 @@ const Storage = {
     if (window.storage && typeof window.storage.set === 'function') {
       try {
         await window.storage.set(key, value, false);
-      } catch (e) { console.warn('window.storage.set:', e.message); }
+      } catch (e) {}
     }
     try {
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem(key, value);
       }
-    } catch (e) { console.warn('localStorage.set:', e.message); }
+    } catch (e) {}
   }
 };
 
@@ -898,8 +885,7 @@ async function exportImage() {
     document.getElementById('img-modal').classList.add('show');
     showToast('완료! 이미지를 길게 누르세요');
   } catch (err) {
-    console.error('Export error:', err);
-    showToast('이미지 생성 실패: ' + (err.message || '알 수 없는 오류'));
+    showToast('이미지 생성 실패');
   } finally {
     document.body.classList.remove('exporting');
     btn.disabled = false;
@@ -911,44 +897,30 @@ function closeImgModal() {
 }
 
 async function shareImage() {
-  if (!lastBlob) { showToast('이미지가 아직 준비 안 됐어요'); return; }
-  
+  if (!lastBlob) return;
   const fileName = `심방일정_${currentYear}년${currentMonth}월.png`;
-  
   try {
     const file = new File([lastBlob], fileName, { type: 'image/png' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       await navigator.share({
         files: [file],
-        title: '목사님 심방 일정',
-        text: `${currentYear}년 ${currentMonth}월 심방 일정`
+        title: '교구 전도인 심방 일정',
+        text: `${currentYear}년 ${currentMonth}월 교구 전도인 심방 일정`
       });
-      return;
     }
-  } catch (e) {
-    if (e.name === 'AbortError') return;
-    console.warn('Share failed:', e);
-  }
-  
-  showToast('공유 미지원 — 이미지를 꾹 눌러 저장하세요');
+  } catch (e) {}
 }
 
 async function copyImage() {
-  if (!lastBlob) { showToast('이미지가 아직 준비 안 됐어요'); return; }
-  
+  if (!lastBlob) return;
   try {
     if (navigator.clipboard && window.ClipboardItem) {
       await navigator.clipboard.write([
         new ClipboardItem({ 'image/png': lastBlob })
       ]);
-      showToast('복사 완료! 카톡에 붙여넣기 하세요');
-      return;
+      showToast('복사 완료!');
     }
-  } catch (e) {
-    console.warn('Clipboard failed:', e);
-  }
-  
-  showToast('복사 미지원 — 이미지를 꾹 눌러 저장하세요');
+  } catch (e) {}
 }
 
 function showToast(msg) {
@@ -965,6 +937,5 @@ if (document.readyState === 'loading') {
   init();
 }
 </script>
-
 </body>
 </html>
