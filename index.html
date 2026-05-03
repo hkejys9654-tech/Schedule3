@@ -50,6 +50,7 @@ body {
   font-weight: 800;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -84,6 +85,7 @@ header {
 }
 .export-btn:active { transform: scale(0.96); }
 
+/* Title section */
 .title-block {
   text-align: center;
   margin-bottom: 18px;
@@ -102,6 +104,7 @@ header {
   letter-spacing: 0.05em;
 }
 
+/* Month nav */
 .month-nav {
   display: flex;
   align-items: center;
@@ -142,6 +145,7 @@ header {
   letter-spacing: 0.05em;
 }
 
+/* Legend */
 .legend {
   display: flex;
   gap: 8px;
@@ -161,6 +165,7 @@ header {
 .dot-unavailable { background: #B33A3A; color: white; border: none; }
 .dot-confirmed { background: #3F6B4A; color: white; border: none; }
 
+/* Hint */
 .hint {
   text-align: center;
   font-size: 11px;
@@ -169,6 +174,7 @@ header {
   letter-spacing: 0.02em;
 }
 
+/* Schedule */
 #schedule-area {
   background: var(--surface);
   border-radius: 14px;
@@ -253,6 +259,7 @@ td {
   padding: 0 2px;
 }
 
+/* Modal / bottom sheet */
 .modal-backdrop {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -377,6 +384,7 @@ td {
 .btn-cancel { background: #F0E9DD; color: var(--ink); }
 .btn-save:active, .btn-cancel:active { transform: scale(0.97); }
 
+/* Toast */
 .toast {
   position: fixed;
   bottom: 32px;
@@ -399,6 +407,7 @@ td {
   transform: translateX(-50%) translateY(0);
 }
 
+/* Footer */
 .footer-note {
   text-align: center;
   font-size: 10.5px;
@@ -409,8 +418,70 @@ td {
   line-height: 1.5;
 }
 
+/* Format picker modal */
+.fmt-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 200;
+}
+.fmt-modal.show { display: flex; }
+.fmt-sheet {
+  background: white;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px 20px 0 0;
+  padding: 20px 20px calc(24px + env(safe-area-inset-bottom));
+}
+.fmt-handle {
+  width: 36px; height: 4px;
+  background: #D8D2C5; border-radius: 2px;
+  margin: -6px auto 18px;
+}
+.fmt-title {
+  font-size: 16px; font-weight: 800;
+  text-align: center; margin-bottom: 6px;
+  color: #1B1F2A;
+}
+.fmt-sub {
+  font-size: 12px; color: #6F6B62;
+  text-align: center; margin-bottom: 20px;
+}
+.fmt-buttons {
+  display: -webkit-flex; display: flex;
+  gap: 10px; margin-bottom: 14px;
+}
+.fmt-btn {
+  -webkit-appearance: none; appearance: none;
+  flex: 1; padding: 18px 8px;
+  border-radius: 14px;
+  border: 2px solid #E5DDD0;
+  background: #F9F5EC;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.fmt-btn:active { transform: scale(0.97); }
+.fmt-btn .fmt-icon { font-size: 28px; display: block; margin-bottom: 6px; }
+.fmt-btn .fmt-label { font-size: 14px; font-weight: 800; color: #1B1F2A; display: block; }
+.fmt-btn .fmt-desc { font-size: 11px; color: #6F6B62; display: block; margin-top: 3px; }
+.fmt-btn:hover, .fmt-btn:active { border-color: #1B1F2A; background: #F0EBE0; }
+.fmt-cancel {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; padding: 14px;
+  border: none; border-radius: 12px;
+  background: #F0E9DD; color: #1B1F2A;
+  font-size: 15px; font-weight: 700;
+  font-family: inherit; cursor: pointer;
+}
+
+/* Export-only elements (hidden by default) */
 .export-only { display: none; }
 
+/* Image preview modal */
 .img-modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -501,6 +572,7 @@ td {
   color: #1B1F2A;
 }
 
+/* When exporting, show extras */
 .exporting .export-only { display: block; }
 .exporting .export-title {
   padding: 18px 16px 14px;
@@ -575,9 +647,9 @@ td {
       <tr>
         <th>날짜</th>
         <th>요일</th>
-        <th>오전<span class="time">10–12</span></th>
-        <th>오후<span class="time">14–17</span></th>
-        <th>저녁<span class="time">19–22</span></th>
+        <th>오전<span class="time">10-12</span></th>
+        <th>오후<span class="time">14-17</span></th>
+        <th>저녁<span class="time">19-22</span></th>
       </tr>
     </thead>
     <tbody id="schedule-body"></tbody>
@@ -588,6 +660,8 @@ td {
 <div class="footer-note">
   변경 즉시 자동 저장됩니다 · 이미지로 저장하여 카톡방에 공유하세요
 </div>
+
+<!-- Modal -->
 
 <div class="modal-backdrop" id="modal-backdrop">
   <div class="modal" role="dialog" aria-modal="true">
@@ -609,6 +683,31 @@ td {
     </div>
   </div>
 </div>
+
+<!-- Format picker -->
+
+<div class="fmt-modal" id="fmt-modal">
+  <div class="fmt-sheet">
+    <div class="fmt-handle"></div>
+    <div class="fmt-title">출력 형식 선택</div>
+    <div class="fmt-sub">이미지로 저장할 형식을 선택하세요</div>
+    <div class="fmt-buttons">
+      <button class="fmt-btn" id="fmt-table">
+        <span class="fmt-icon">📋</span>
+        <span class="fmt-label">표 형식</span>
+        <span class="fmt-desc">날짜별 세로 목록</span>
+      </button>
+      <button class="fmt-btn" id="fmt-calendar">
+        <span class="fmt-icon">📅</span>
+        <span class="fmt-label">달력 형식</span>
+        <span class="fmt-desc">월간 캘린더 뷰</span>
+      </button>
+    </div>
+    <button class="fmt-cancel" id="fmt-cancel">취소</button>
+  </div>
+</div>
+
+<!-- Image preview modal -->
 
 <div class="img-modal" id="img-modal">
   <div class="img-modal-header">
@@ -642,7 +741,20 @@ function init() {
   
   document.getElementById('prev-month').addEventListener('click', () => changeMonth(-1));
   document.getElementById('next-month').addEventListener('click', () => changeMonth(1));
-  document.getElementById('export-btn').addEventListener('click', exportImage);
+  document.getElementById('export-btn').addEventListener('click', () => {
+    document.getElementById('fmt-modal').classList.add('show');
+  });
+  document.getElementById('fmt-cancel').addEventListener('click', () => {
+    document.getElementById('fmt-modal').classList.remove('show');
+  });
+  document.getElementById('fmt-table').addEventListener('click', () => {
+    document.getElementById('fmt-modal').classList.remove('show');
+    exportImage('table');
+  });
+  document.getElementById('fmt-calendar').addEventListener('click', () => {
+    document.getElementById('fmt-modal').classList.remove('show');
+    exportImage('calendar');
+  });
   document.getElementById('btn-cancel').addEventListener('click', closeModal);
   document.getElementById('btn-save').addEventListener('click', saveCell);
   document.getElementById('modal-backdrop').addEventListener('click', (e) => {
@@ -673,6 +785,7 @@ function changeMonth(delta) {
   loadAndRender();
 }
 
+// Layered storage: window.storage → localStorage → memory
 const memCache = {};
 const Storage = {
   async get(key) {
@@ -680,7 +793,7 @@ const Storage = {
       try {
         const result = await window.storage.get(key, false);
         if (result && result.value !== undefined) return result.value;
-      } catch (e) {}
+      } catch (e) { /* key may not exist; fall through */ }
     }
     try {
       if (typeof localStorage !== 'undefined') {
@@ -695,13 +808,13 @@ const Storage = {
     if (window.storage && typeof window.storage.set === 'function') {
       try {
         await window.storage.set(key, value, false);
-      } catch (e) {}
+      } catch (e) { console.warn('window.storage.set:', e.message); }
     }
     try {
       if (typeof localStorage !== 'undefined') {
         localStorage.setItem(key, value);
       }
-    } catch (e) {}
+    } catch (e) { console.warn('localStorage.set:', e.message); }
   }
 };
 
@@ -782,7 +895,7 @@ function openModal(date, slot) {
   
   const [y,m,d] = date.split('-');
   const wd = new Date(parseInt(y), parseInt(m)-1, parseInt(d)).getDay();
-  const slotLabel = slot === 'morning' ? '오전 (10–12시)' : slot === 'afternoon' ? '오후 (14–17시)' : '저녁 (19–22시)';
+  const slotLabel = slot === 'morning' ? '오전 (10-12시)' : slot === 'afternoon' ? '오후 (14-17시)' : '저녁 (19-22시)';
   
   document.getElementById('modal-title').textContent = `${parseInt(m)}월 ${parseInt(d)}일 (${WEEKDAYS[wd]})`;
   document.getElementById('modal-sub').textContent = slotLabel;
@@ -803,10 +916,10 @@ function updateStateButtons() {
   document.querySelectorAll('.state-btn').forEach(btn => {
     const isActive = btn.dataset.state === selectedState;
     const s = isActive ? styles[btn.dataset.state] : inactive;
-    btn.style.backgroundColor = s.bg;
-    btn.style.color           = s.color;
-    btn.style.border          = s.border;
-    btn.style.fontWeight      = '700';
+    btn.style.background    = s.bg;
+    btn.style.color         = s.color;
+    btn.style.border        = s.border;
+    btn.style.fontWeight    = '700';
     btn.classList.toggle('active', isActive);
   });
   document.getElementById('name-wrap').classList.toggle('show', selectedState === 'confirmed');
@@ -831,6 +944,7 @@ async function saveCell() {
     delete scheduleData[date][slot + 'Name'];
   }
   
+  // remove default available state to keep storage lean
   if (selectedState === 'available') {
     delete scheduleData[date][slot];
   }
@@ -845,51 +959,203 @@ async function saveCell() {
 let lastBlob = null;
 let lastDataUrl = null;
 
-async function exportImage() {
+async function exportImage(format) {
   const btn = document.getElementById('export-btn');
   btn.disabled = true;
   showToast('이미지 만드는 중...');
-  
-  const today = new Date();
-  const stamp = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')}`;
-  document.getElementById('export-footer-text').textContent = `최종 업데이트: ${stamp}`;
-  
-  document.body.classList.add('exporting');
-  
+
   try {
-    if (document.fonts && document.fonts.ready) {
-      await document.fonts.ready;
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    await new Promise(r => setTimeout(r, 80));
+
+    let canvas;
+    if (format === 'calendar') {
+      canvas = drawCalendarCanvas();
+    } else {
+      const today = new Date();
+      const stamp = `${today.getFullYear()}.${String(today.getMonth()+1).padStart(2,'0')}.${String(today.getDate()).padStart(2,'0')}`;
+      document.getElementById('export-footer-text').textContent = `최종 업데이트: ${stamp}`;
+      document.body.classList.add('exporting');
+      await new Promise(r => setTimeout(r, 80));
+      canvas = await html2canvas(document.getElementById('schedule-area'), {
+        scale: 2, backgroundColor: '#ffffff',
+        logging: false, useCORS: true, allowTaint: false, removeContainer: true
+      });
+      document.body.classList.remove('exporting');
     }
-    await new Promise(r => setTimeout(r, 120));
-    
-    const target = document.getElementById('schedule-area');
-    const canvas = await html2canvas(target, {
-      scale: 2,
-      backgroundColor: '#ffffff',
-      logging: false,
-      useCORS: true,
-      allowTaint: false,
-      removeContainer: true
-    });
-    
+
     lastDataUrl = canvas.toDataURL('image/png');
-    
-    await new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        lastBlob = blob;
-        resolve();
-      }, 'image/png');
-    });
-    
+    await new Promise(resolve => canvas.toBlob(blob => { lastBlob = blob; resolve(); }, 'image/png'));
+
     document.getElementById('generated-img').src = lastDataUrl;
     document.getElementById('img-modal').classList.add('show');
     showToast('완료! 이미지를 길게 누르세요');
   } catch (err) {
+    console.error('Export error:', err);
+    document.body.classList.remove('exporting');
     showToast('이미지 생성 실패');
   } finally {
-    document.body.classList.remove('exporting');
     btn.disabled = false;
   }
+}
+
+function drawCalendarCanvas() {
+  const DPR = 2.5;
+  const PW = 800; // pixel width (logical)
+  const PAD = 24;
+
+  const lastDay = new Date(currentYear, currentMonth, 0).getDate();
+  const firstWd = new Date(currentYear, currentMonth - 1, 1).getDay();
+  const WEEKS = Math.ceil((firstWd + lastDay) / 7);
+
+  const COLS = 7;
+  const CELL_W = Math.floor((PW - PAD * 2) / COLS);
+  const CELL_H = 110;
+
+  const HEADER_H  = 72;   // title bar
+  const WDAY_H    = 34;   // 일월화수목금토 row
+  const LEGEND_H  = 40;   // bottom legend
+  const PH = HEADER_H + WDAY_H + WEEKS * CELL_H + LEGEND_H + PAD;
+
+  const canvas = document.createElement('canvas');
+  canvas.width  = PW  * DPR;
+  canvas.height = PH  * DPR;
+  const c = canvas.getContext('2d');
+  c.scale(DPR, DPR);
+
+  // ── helpers ─────────────────────────────────────────────
+  function rr(x, y, w, h, r) {
+    c.beginPath();
+    c.moveTo(x+r, y);
+    c.lineTo(x+w-r, y); c.quadraticCurveTo(x+w,y, x+w,y+r);
+    c.lineTo(x+w,y+h-r); c.quadraticCurveTo(x+w,y+h, x+w-r,y+h);
+    c.lineTo(x+r,y+h); c.quadraticCurveTo(x,y+h, x,y+h-r);
+    c.lineTo(x,y+r); c.quadraticCurveTo(x,y, x+r,y);
+    c.closePath();
+  }
+  function clip(text, maxW) {
+    if (c.measureText(text).width <= maxW) return text;
+    while (text.length > 1 && c.measureText(text+'…').width > maxW) text = text.slice(0,-1);
+    return text+'…';
+  }
+  function txt(text, x, y, font, color, align='center') {
+    c.font = font; c.fillStyle = color; c.textAlign = align;
+    c.fillText(text, x, y);
+  }
+
+  // ── background ──────────────────────────────────────────
+  c.fillStyle = '#F4EFE6';
+  c.fillRect(0, 0, PW, PH);
+
+  // ── header ──────────────────────────────────────────────
+  c.fillStyle = '#1B1F2A';
+  rr(0, 0, PW, HEADER_H, 0); c.fill();
+
+  txt('교구 전도인 심방 일정', PW/2, 30,
+      'bold 24px -apple-system,sans-serif', 'white');
+  txt(`${currentYear}년 ${currentMonth}월`,  PW/2, 54,
+      '500 14px -apple-system,sans-serif', 'rgba(255,255,255,0.6)');
+
+  // ── weekday labels ───────────────────────────────────────
+  const WY = HEADER_H;
+  const WD_NAMES = ['일','월','화','수','목','금','토'];
+  for (let i = 0; i < 7; i++) {
+    const cx = PAD + i * CELL_W + CELL_W / 2;
+    const col = i===0?'#E05555': i===6?'#4A7FC1':'#6F6B62';
+    c.fillStyle = col;
+    rr(PAD + i*CELL_W + 2, WY + 4, CELL_W - 4, WDAY_H - 6, 6); 
+    // subtle tint for sun/sat
+    if(i===0){ c.fillStyle='rgba(176,58,58,0.08)'; rr(PAD+i*CELL_W+2,WY+4,CELL_W-4,WDAY_H-6,6); c.fill(); }
+    if(i===6){ c.fillStyle='rgba(45,95,139,0.08)'; rr(PAD+i*CELL_W+2,WY+4,CELL_W-4,WDAY_H-6,6); c.fill(); }
+    txt(WD_NAMES[i], cx, WY + WDAY_H - 10,
+        'bold 13px -apple-system,sans-serif', col);
+  }
+
+  // ── cells ────────────────────────────────────────────────
+  const GY = HEADER_H + WDAY_H;
+  const SLOT_KEYS   = ['morning','afternoon','evening'];
+  const SLOT_LABELS = ['오전','오후','저녁'];
+  const C_AVAIL = '#EDE8DE', C_UNAVAIL = '#B33A3A', C_CONFIRM = '#3F6B4A';
+
+  for (let cell = 0; cell < WEEKS * 7; cell++) {
+    const col = cell % 7;
+    const row = Math.floor(cell / 7);
+    const day = cell - firstWd + 1;
+    const cx  = PAD + col * CELL_W;
+    const cy  = GY  + row * CELL_H;
+    const isValid = day >= 1 && day <= lastDay;
+
+    // cell background
+    c.fillStyle = isValid ? '#FFFFFF' : '#EDE8DE';
+    rr(cx+2, cy+2, CELL_W-4, CELL_H-4, 8); c.fill();
+
+    // thin border
+    c.strokeStyle = '#E5DDD0'; c.lineWidth = 0.8;
+    rr(cx+2, cy+2, CELL_W-4, CELL_H-4, 8); c.stroke();
+
+    if (!isValid) continue;
+
+    const wd = (firstWd + day - 1) % 7;
+    const dateKey = `${currentYear}-${String(currentMonth).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const dd = scheduleData[dateKey] || {};
+
+    // day number
+    const numColor = wd===0?'#B33A3A': wd===6?'#2D5F8B':'#1B1F2A';
+    txt(String(day), cx+11, cy+20,
+        'bold 16px -apple-system,sans-serif', numColor, 'left');
+
+    // 3 slot bars
+    const barX = cx + 6;
+    const barW = CELL_W - 12;
+    const barH = 20;
+    const barGap = 3;
+    const barStartY = cy + 28;
+
+    SLOT_KEYS.forEach((key, i) => {
+      const state = dd[key] || 'available';
+      const by = barStartY + i * (barH + barGap);
+      let bg, fg;
+      if      (state === 'unavailable') { bg = C_UNAVAIL; fg = 'white'; }
+      else if (state === 'confirmed')   { bg = C_CONFIRM; fg = 'white'; }
+      else                              { bg = C_AVAIL;   fg = '#9E9689'; }
+
+      c.fillStyle = bg; rr(barX, by, barW, barH, 4); c.fill();
+
+      // label
+      let label;
+      if (state === 'confirmed' && dd[key+'Name']) {
+        c.font = '600 9px -apple-system,sans-serif';
+        label = clip(dd[key+'Name'], barW - 6);
+      } else {
+        label = SLOT_LABELS[i];
+        c.font = 'bold 9px -apple-system,sans-serif';
+      }
+      txt(label, barX + barW/2, by + 14,
+          c.font, fg, 'center');
+    });
+  }
+
+  // ── grid outer border ────────────────────────────────────
+  c.strokeStyle = '#D5CFC4'; c.lineWidth = 1;
+  rr(PAD, GY, CELL_W*7, WEEKS*CELL_H, 10); c.stroke();
+
+  // ── legend ───────────────────────────────────────────────
+  const LY = GY + WEEKS * CELL_H + 10;
+  const items = [
+    { color:'#EDE8DE', fg:'#6F6B62', label:'가능' },
+    { color:'#B33A3A', fg:'white',   label:'불가능' },
+    { color:'#3F6B4A', fg:'white',   label:'심방확정' },
+  ];
+  let lx = PW/2 - 160;
+  items.forEach(it => {
+    c.fillStyle = it.color;
+    rr(lx, LY+2, 80, 26, 13); c.fill();
+    txt(it.label, lx+40, LY+19,
+        'bold 11px -apple-system,sans-serif', it.fg);
+    lx += 94;
+  });
+
+  return canvas;
 }
 
 function closeImgModal() {
@@ -897,30 +1163,44 @@ function closeImgModal() {
 }
 
 async function shareImage() {
-  if (!lastBlob) return;
+  if (!lastBlob) { showToast('이미지가 아직 준비 안 됐어요'); return; }
+  
   const fileName = `심방일정_${currentYear}년${currentMonth}월.png`;
+  
   try {
     const file = new File([lastBlob], fileName, { type: 'image/png' });
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       await navigator.share({
         files: [file],
         title: '교구 전도인 심방 일정',
-        text: `${currentYear}년 ${currentMonth}월 교구 전도인 심방 일정`
+        text: `${currentYear}년 ${currentMonth}월 심방 일정`
       });
+      return;
     }
-  } catch (e) {}
+  } catch (e) {
+    if (e.name === 'AbortError') return;
+    console.warn('Share failed:', e);
+  }
+  
+  showToast('공유 미지원 — 이미지를 꾹 눌러 저장하세요');
 }
 
 async function copyImage() {
-  if (!lastBlob) return;
+  if (!lastBlob) { showToast('이미지가 아직 준비 안 됐어요'); return; }
+  
   try {
     if (navigator.clipboard && window.ClipboardItem) {
       await navigator.clipboard.write([
         new ClipboardItem({ 'image/png': lastBlob })
       ]);
-      showToast('복사 완료!');
+      showToast('복사 완료! 카톡에 붙여넣기 하세요');
+      return;
     }
-  } catch (e) {}
+  } catch (e) {
+    console.warn('Clipboard failed:', e);
+  }
+  
+  showToast('복사 미지원 — 이미지를 꾹 눌러 저장하세요');
 }
 
 function showToast(msg) {
@@ -937,5 +1217,6 @@ if (document.readyState === 'loading') {
   init();
 }
 </script>
+
 </body>
 </html>
